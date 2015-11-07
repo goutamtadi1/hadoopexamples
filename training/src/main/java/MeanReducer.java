@@ -6,33 +6,44 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class MeanReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+import com.tadi.mapreduce.chapter10.IntWritablePair;
+
+public class MeanReducer extends Reducer<Text, IntWritablePair, Text, IntWritable> {
 
 	
 
 		@Override
-		protected void reduce(Text key, Iterable<IntWritable> values, Context context)
+		protected void reduce(Text key, Iterable<IntWritablePair> values, Context context)
 				throws IOException, InterruptedException {
 			
-			// CA --> [25,30,40]
-			Iterator<IntWritable> itr = values.iterator();
+			// CA --> [sum/count, sum/count]
+			Iterator<IntWritablePair> itr = values.iterator();
 			ArrayList<Integer> meanList = new ArrayList<Integer>();
+			ArrayList<Integer> countList = new ArrayList<Integer>();
 			while(itr.hasNext()){
-				meanList.add(itr.next().get());
+				IntWritablePair tp = itr.next();
+				meanList.add(tp.getIntW1().get());
+				countList.add(tp.getIntW2().get());
 			}
-			int mean = calculateMean(meanList);
+			
+			int mean = calculateMean(meanList,countList);
 			context.write(new Text(key), new IntWritable(mean));
 
 		}
 
-		private int calculateMean(ArrayList<Integer> meanList){
-			
+		
+		private int calculateMean(ArrayList<Integer> meanList, ArrayList<Integer> countList){
 			Iterator<Integer> itr = meanList.iterator();
 			int sum =0;
 			while(itr.hasNext()){
 				sum+=itr.next();
 			}
-			int mean = ((sum)/(meanList.size()));
+			Iterator<Integer> itr1 = countList.iterator();
+			int count =0;
+			while(itr1.hasNext()){
+				count+=itr1.next();
+			}
+			int mean = sum/count;
 			return mean;
 		}
 	

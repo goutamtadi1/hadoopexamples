@@ -6,7 +6,9 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class MeanMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+import com.tadi.mapreduce.chapter10.IntWritablePair;
+
+public class MeanMapper extends Mapper<LongWritable, Text, Text, IntWritablePair> {
 	
 	
 
@@ -19,7 +21,7 @@ public class MeanMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 		StringTokenizer strToken = new StringTokenizer(record,";");
 		String city = strToken.nextToken();
 		int temperature = Integer.parseInt(strToken.nextToken());
-		context.write(new Text(city), new IntWritable(temperature));
+		context.write(new Text(city), new IntWritablePair(temperature,1));
 	}
 
 }
