@@ -24,6 +24,7 @@ public class ReadFromHDFS {
 		try{
 			in=fs.open(new Path(args[0]));
 			IOUtils.copyBytes(in,fout, 512,false);
+			
 		}
 		catch(Exception e){
 			
@@ -35,3 +36,6 @@ public class ReadFromHDFS {
 	}
 
 }
+
+// hadoop fs -cat <Path of file>
+// hadoop fs -copyToLocal <Path of HDFS File> <local path>

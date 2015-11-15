@@ -29,9 +29,8 @@ public class CompressSample {
 			in = new BufferedInputStream(new FileInputStream(args[0]));
 			out = codec.createOutputStream(fs.create(new Path(args[1])));
 
-			IOUtils.copyBytes(in, out, 4096, false);
-			out.close();
-			in.close();
+			IOUtils.copyBytes(in, out, 4096, true);
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

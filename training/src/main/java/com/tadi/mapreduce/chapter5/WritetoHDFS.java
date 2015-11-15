@@ -16,7 +16,7 @@ public class WritetoHDFS {
 public static void main(String args[]) throws IOException{
 		
 		Configuration conf = new Configuration();
-		//conf.set("fs.defaultFS","hdfs://127.0.0.1:8020/");
+		//conf.set("fs.defaultFS","hdfs://127.0.0.1:8020/"); // namenode address set
 		FileSystem fs = FileSystem.get(conf);
 		
 		
@@ -39,3 +39,5 @@ public static void main(String args[]) throws IOException{
 	}
 
 }
+
+// hadoop fs -copyFromLocal <Path to local> <Path to HDFS dir>
