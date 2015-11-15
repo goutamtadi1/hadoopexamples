@@ -7,9 +7,9 @@ import java.io.IOException;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.Writable;
+import org.apache.hadoop.io.WritableComparable;
 
-public class ADT implements Writable {
+public class ADT implements WritableComparable {
 	// id,name,salary,dept
 
 	private LongWritable id;
@@ -63,6 +63,12 @@ public class ADT implements Writable {
 		name.readFields(in);
 		salary.readFields(in);
 		dept.readFields(in);
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		 ADT newObj = (ADT) o;
+		 return this.id.compareTo(newObj.getId());
 	}
 
 }
